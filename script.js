@@ -1,34 +1,308 @@
 // ==================== CONFIGURATION ====================
 const STORAGE_KEY = 'ursa_complaints';
 
-// ==================== PAGE NAVIGATION ====================
+// ==================== ORIGINAL FUNCTIONS (KEEP ALL) ====================
+
+// Original getUsers function
+function getUsers() {
+    return JSON.parse(localStorage.getItem("ursa_users") || "[]");
+}
+
+// Original setUsers function
+function setUsers(users) {
+    localStorage.setItem("ursa_users", JSON.stringify(users));
+}
+
+// Original getCurrentUser function
+function getCurrentUser() {
+    return JSON.parse(localStorage.getItem("ursa_current_user") || "null");
+}
+
+// Original setCurrentUser function
+function setCurrentUser(user) {
+    localStorage.setItem("ursa_current_user", JSON.stringify(user));
+}
+
+// Original clearCurrentUser function
+function clearCurrentUser() {
+    localStorage.removeItem("ursa_current_user");
+}
+
+// Original showPage function (modified to keep all original functionality)
 function showPage(pageName) {
     // Hide all pages
-    document.querySelectorAll('.page').forEach(page => {
-        page.classList.remove('active-page');
-    });
-    
+    document.querySelectorAll(".page").forEach((page) => page.classList.remove("active-page"));
+
     // Show selected page
-    const page = document.getElementById('page-' + pageName);
-    if (page) {
-        page.classList.add('active-page');
+    const target = document.getElementById(`page-${pageName}`);
+    if (target) target.classList.add("active-page");
+
+    // Handle login page special class
+    if (pageName === "login" || pageName === "register") {
+        document.body.classList.add("login-page");
+        closeSidebar();
+    } else {
+        document.body.classList.remove("login-page");
     }
     
-    // Update navigation buttons
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.textContent.toLowerCase().includes(pageName)) {
-            btn.classList.add('active');
-        }
-    });
-
-    // If showing My Reports, load complaints
-    if (pageName === 'myreports') {
-        loadAndDisplayReports();
+    // If showing myreports, load complaints (NEW functionality)
+    if (pageName === "myreports") {
+        setTimeout(() => {
+            if (typeof loadAndDisplayReports === 'function') {
+                loadAndDisplayReports();
+            }
+        }, 100);
+    }
+    
+    // If showing home, update user data (original functionality)
+    if (pageName === "home") {
+        if (typeof populateUserData === 'function') populateUserData();
+        if (typeof updateGreeting === 'function') updateGreeting();
     }
 }
 
-// ==================== NEW REPORT BUTTON ====================
+// Original openSidebar function
+function openSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
+    if (sidebar) sidebar.classList.add("open");
+    if (overlay) overlay.classList.add("show");
+}
+
+// Original closeSidebar function
+function closeSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
+    if (sidebar) sidebar.classList.remove("open");
+    if (overlay) overlay.classList.remove("show");
+}
+
+// Original updateGreeting function
+function updateGreeting() {
+    const homeGreeting = document.getElementById("homeGreeting");
+    if (!homeGreeting) return;
+
+    const hour = new Date().getHours();
+    let greeting = "Good evening";
+    if (hour < 12) greeting = "Good morning";
+    else if (hour < 18) greeting = "Good afternoon";
+
+    homeGreeting.textContent = greeting;
+}
+
+// Original populateUserData function
+function populateUserData() {
+    const user = getCurrentUser();
+    if (!user) return;
+
+    const homeUserName = document.getElementById("homeUserName");
+    const homeUserMeta = document.getElementById("homeUserMeta");
+    const homeGovernorate = document.getElementById("homeGovernorate");
+    const homePhone = document.getElementById("homePhone");
+    const accountIdText = document.getElementById("accountIdText");
+    const settingsFullName = document.getElementById("settingsFullName");
+    const settingsPhone = document.getElementById("settingsPhone");
+    const settingsGovernorate = document.getElementById("settingsGovernorate");
+
+    if (homeUserName) homeUserName.textContent = user.fullName || "User Name";
+    if (homeUserMeta) homeUserMeta.textContent = `National ID: ${user.nationalId || "-"}`;
+    if (homeGovernorate) homeGovernorate.textContent = user.governorate || "Governorate";
+    if (homePhone) homePhone.textContent = user.phone || "Phone";
+    if (accountIdText) accountIdText.textContent = `National ID: ${user.nationalId || "-"}`;
+    if (settingsFullName) settingsFullName.value = user.fullName || "";
+    if (settingsPhone) settingsPhone.value = user.phone || "";
+    if (settingsGovernorate) settingsGovernorate.value = user.governorate || "";
+}
+
+// Original applyTheme function
+function applyTheme(mode) {
+    const body = document.body;
+    const lightModeBtn = document.getElementById("lightModeBtn");
+    const darkModeBtn = document.getElementById("darkModeBtn");
+
+    if (mode === "light") {
+        body.classList.remove("dark");
+        if (lightModeBtn) lightModeBtn.classList.add("active");
+        if (darkModeBtn) darkModeBtn.classList.remove("active");
+    } else {
+        body.classList.add("dark");
+        if (darkModeBtn) darkModeBtn.classList.add("active");
+        if (lightModeBtn) lightModeBtn.classList.remove("active");
+    }
+
+    localStorage.setItem("ursa_theme", mode);
+}
+
+// Original login functions
+function loginUser(identifier, password) {
+    const users = getUsers();
+    return users.find(
+        (user) =>
+            (user.phone === identifier || user.nationalId === identifier) &&
+            user.password === password
+    );
+}
+
+function handleLogin(event) {
+    event.preventDefault();
+
+    const loginError = document.getElementById("loginError");
+    const identifier = document.getElementById("loginIdentifier").value.trim();
+    const password = document.getElementById("loginPassword").value;
+
+    if (loginError) {
+        loginError.style.display = "none";
+        loginError.textContent = "";
+    }
+
+    if (!identifier || !password) {
+        if (loginError) {
+            loginError.textContent = "Please enter your data correctly.";
+            loginError.style.display = "block";
+        }
+        return;
+    }
+
+    const user = loginUser(identifier, password);
+
+    if (!user) {
+        if (loginError) {
+            loginError.textContent = "Wrong phone / national ID or password.";
+            loginError.style.display = "block";
+        }
+        return;
+    }
+
+    setCurrentUser(user);
+    populateUserData();
+    updateGreeting();
+    showPage("home");
+}
+
+function handleRegister(event) {
+    event.preventDefault();
+
+    const ok = window.validateRegisterForm && window.validateRegisterForm();
+    if (!ok) return;
+
+    populateUserData();
+    updateGreeting();
+    showPage("home");
+
+    const registerForm = document.getElementById("registerForm");
+    if (registerForm) registerForm.reset();
+}
+
+function handleSettingsUpdate(event) {
+    event.preventDefault();
+
+    const user = getCurrentUser();
+    if (!user) return;
+
+    const fullName = document.getElementById("settingsFullName").value.trim();
+    const phone = document.getElementById("settingsPhone").value.trim();
+    const governorate = document.getElementById("settingsGovernorate").value.trim();
+
+    if (!fullName || !phone || !governorate) {
+        alert("Please fill all profile fields.");
+        return;
+    }
+
+    if (!/^\d{11}$/.test(phone)) {
+        alert("Phone number must be exactly 11 digits.");
+        return;
+    }
+
+    const users = getUsers();
+    const duplicatePhone = users.some(
+        (u) => u.phone === phone && u.nationalId !== user.nationalId
+    );
+
+    if (duplicatePhone) {
+        alert("This phone number is already used by another account.");
+        return;
+    }
+
+    const updatedUser = {
+        ...user,
+        fullName,
+        phone,
+        governorate
+    };
+
+    const updatedUsers = users.map((u) =>
+        u.nationalId === user.nationalId ? updatedUser : u
+    );
+
+    setUsers(updatedUsers);
+    setCurrentUser(updatedUser);
+    populateUserData();
+    alert("Profile updated successfully.");
+}
+
+function handleLogout() {
+    clearCurrentUser();
+
+    const loginForm = document.getElementById("loginForm");
+    if (loginForm) loginForm.reset();
+
+    showPage("login");
+}
+
+// Original category button function
+function activateCategoryButton(button) {
+    document.querySelectorAll(".category-btn").forEach((btn) => {
+        btn.classList.remove("primary");
+    });
+
+    button.classList.add("primary");
+
+    const selectedCategory = document.getElementById("selectedCategory");
+    if (selectedCategory) selectedCategory.value = button.dataset.category;
+}
+
+// Original camera functions
+function clearCameraPreview() {
+    const cameraPreview = document.getElementById("cameraPreview");
+    const cameraInput = document.getElementById("cameraInput");
+    
+    if (cameraPreview) {
+        cameraPreview.innerHTML = "";
+        cameraPreview.classList.remove("active");
+    }
+    
+    if (cameraInput) {
+        cameraInput.value = "";
+    }
+}
+
+function handleCameraFile(event) {
+    const file = event.target.files && event.target.files[0];
+    const preview = document.getElementById("cameraPreview");
+    if (!file || !preview) return;
+
+    const url = URL.createObjectURL(file);
+    preview.innerHTML = "";
+
+    if (file.type.startsWith("video/")) {
+        const video = document.createElement("video");
+        video.src = url;
+        video.controls = true;
+        preview.appendChild(video);
+    } else {
+        const img = document.createElement("img");
+        img.src = url;
+        img.alt = "Captured preview";
+        preview.appendChild(img);
+    }
+
+    preview.classList.add("active");
+    showPage("report");
+}
+
+// ==================== NEW REPORT FUNCTIONS (ADD THIS) ====================
+
+// New Report functions (these work with your new report tab)
 function newReport() {
     // Clear the form
     const description = document.getElementById('description');
@@ -43,7 +317,6 @@ function newReport() {
     showPage('report');
 }
 
-// ==================== REFRESH BUTTON ====================
 function refreshReports() {
     // Reload and display complaints
     loadAndDisplayReports();
@@ -59,7 +332,6 @@ function refreshReports() {
     }
 }
 
-// ==================== LOAD AND DISPLAY REPORTS ====================
 function loadAndDisplayReports() {
     const container = document.getElementById('reportsContainer');
     if (!container) return;
@@ -104,7 +376,6 @@ function loadAndDisplayReports() {
     container.innerHTML = html;
 }
 
-// ==================== SUBMIT BUTTON ====================
 function setupSubmitButton() {
     const form = document.getElementById('reportForm');
     if (!form) {
@@ -112,7 +383,11 @@ function setupSubmitButton() {
         return;
     }
 
-    form.addEventListener('submit', function(event) {
+    // Remove any existing listeners to avoid duplicates
+    const newForm = form.cloneNode(true);
+    form.parentNode.replaceChild(newForm, form);
+    
+    newForm.addEventListener('submit', function(event) {
         // IMPORTANT: Stop page refresh
         event.preventDefault();
         
@@ -193,98 +468,113 @@ function setupSubmitButton() {
     });
 }
 
-// ==================== SIDEBAR FUNCTIONS ====================
-function setupSidebar() {
-    const openBtn = document.getElementById('openSidebar');
-    const closeBtn = document.getElementById('closeSidebar');
-    const overlay = document.getElementById('overlay');
-    const sidebar = document.getElementById('sidebar');
+// ==================== BIND ALL EVENTS ====================
+function bindAppEvents() {
+    // Original sidebar buttons
+    const openSidebarBtn = document.getElementById("openSidebar");
+    const closeSidebarBtn = document.getElementById("closeSidebar");
+    const overlay = document.getElementById("overlay");
+    const goToRegisterBtn = document.getElementById("goToRegister");
+    const backToLoginBtn = document.getElementById("backToLogin");
+    const loginForm = document.getElementById("loginForm");
+    const registerForm = document.getElementById("registerForm");
+    const settingsForm = document.getElementById("settingsForm");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const quickReportBtn = document.getElementById("quickReport");
+    const lightModeBtn = document.getElementById("lightModeBtn");
+    const darkModeBtn = document.getElementById("darkModeBtn");
+    const cameraBox = document.getElementById("cameraBox");
+    const cameraInput = document.getElementById("cameraInput");
 
-    if (openBtn) {
-        openBtn.addEventListener('click', function() {
-            if (sidebar) sidebar.classList.add('open');
-            if (overlay) overlay.classList.add('show');
-        });
-    }
+    // Original event listeners
+    if (openSidebarBtn) openSidebarBtn.addEventListener("click", openSidebar);
+    if (closeSidebarBtn) closeSidebarBtn.addEventListener("click", closeSidebar);
+    if (overlay) overlay.addEventListener("click", closeSidebar);
 
-    if (closeBtn) {
-        closeBtn.addEventListener('click', function() {
-            if (sidebar) sidebar.classList.remove('open');
-            if (overlay) overlay.classList.remove('show');
-        });
-    }
-
-    if (overlay) {
-        overlay.addEventListener('click', function() {
-            if (sidebar) sidebar.classList.remove('open');
-            overlay.classList.remove('show');
-        });
-    }
-
-    // Sidebar navigation
-    document.querySelectorAll('.sidebar a[data-page]').forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const page = this.getAttribute('data-page');
+    // Original sidebar navigation
+    document.querySelectorAll(".sidebar a[data-page]").forEach((link) => {
+        link.addEventListener("click", (event) => {
+            event.preventDefault();
+            const page = link.getAttribute("data-page");
             showPage(page);
-            if (sidebar) sidebar.classList.remove('open');
-            if (overlay) overlay.classList.remove('show');
+            if (page === "home") {
+                populateUserData();
+                updateGreeting();
+            }
+            closeSidebar();
         });
     });
-}
 
-// ==================== THEME TOGGLE ====================
-function setupThemeToggle() {
-    const lightBtn = document.getElementById('lightModeBtn');
-    const darkBtn = document.getElementById('darkModeBtn');
+    // Original auth navigation
+    if (goToRegisterBtn) {
+        goToRegisterBtn.addEventListener("click", () => showPage("register"));
+    }
+    if (backToLoginBtn) {
+        backToLoginBtn.addEventListener("click", () => showPage("login"));
+    }
 
-    if (lightBtn) {
-        lightBtn.addEventListener('click', function() {
-            document.body.classList.remove('dark');
-            lightBtn.classList.add('active');
-            if (darkBtn) darkBtn.classList.remove('active');
-            localStorage.setItem('ursa_theme', 'light');
+    // Original form handlers
+    if (loginForm) loginForm.addEventListener("submit", handleLogin);
+    if (registerForm) registerForm.addEventListener("submit", handleRegister);
+    if (settingsForm) settingsForm.addEventListener("submit", handleSettingsUpdate);
+    if (logoutBtn) logoutBtn.addEventListener("click", handleLogout);
+
+    // Original category buttons
+    document.querySelectorAll(".category-btn").forEach((button) => {
+        button.addEventListener("click", () => activateCategoryButton(button));
+    });
+
+    // Original camera handlers
+    if (quickReportBtn) {
+        quickReportBtn.addEventListener("click", () => {
+            showPage("report");
+            if (cameraInput) cameraInput.click();
         });
     }
-
-    if (darkBtn) {
-        darkBtn.addEventListener('click', function() {
-            document.body.classList.add('dark');
-            darkBtn.classList.add('active');
-            if (lightBtn) lightBtn.classList.remove('active');
-            localStorage.setItem('ursa_theme', 'dark');
+    if (cameraBox) {
+        cameraBox.addEventListener("click", () => {
+            if (cameraInput) cameraInput.click();
         });
     }
-
-    // Load saved theme
-    const savedTheme = localStorage.getItem('ursa_theme') || 'dark';
-    if (savedTheme === 'dark') {
-        document.body.classList.add('dark');
-        if (darkBtn) darkBtn.classList.add('active');
-        if (lightBtn) lightBtn.classList.remove('active');
-    } else {
-        document.body.classList.remove('dark');
-        if (lightBtn) lightBtn.classList.add('active');
-        if (darkBtn) darkBtn.classList.remove('active');
+    if (cameraInput) {
+        cameraInput.addEventListener("change", handleCameraFile);
     }
-}
 
-// ==================== INITIALIZE EVERYTHING ====================
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 System starting...');
-    
-    // Setup all functionality
+    // Original theme handlers
+    if (lightModeBtn) lightModeBtn.addEventListener("click", () => applyTheme("light"));
+    if (darkModeBtn) darkModeBtn.addEventListener("click", () => applyTheme("dark"));
+
+    // NEW: Setup submit button for report form
     setupSubmitButton();
-    setupSidebar();
-    setupThemeToggle();
-    
-    // Show report page by default
-    showPage('report');
-    
-    console.log('✅ System ready - Submit button working!');
-});
+}
+
+// ==================== INITIALIZE ====================
+function initApp() {
+    // Load saved theme
+    const savedTheme = localStorage.getItem("ursa_theme") || "dark";
+    applyTheme(savedTheme);
+
+    // Check if user is logged in
+    const currentUser = getCurrentUser();
+    if (currentUser) {
+        populateUserData();
+        updateGreeting();
+        showPage("home");
+    } else {
+        showPage("login");
+    }
+
+    // Bind all events
+    bindAppEvents();
+}
+
+// Start everything when page loads
+document.addEventListener("DOMContentLoaded", initApp);
 
 // Make functions global for onclick handlers
 window.showPage = showPage;
+window.openSidebar = openSidebar;
+window.closeSidebar = closeSidebar;
 window.newReport = newReport;
 window.refreshReports = refreshReports;
+window.activateCategoryButton = activateCategoryButton;
