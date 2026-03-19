@@ -589,7 +589,7 @@
     </div>
 
     <!-- JavaScript -->
-    <script>
+<script>
         // ==================== CONFIGURATION ====================
         const STORAGE_KEY = 'ursa_complaints';
 
@@ -730,75 +730,6 @@
             container.innerHTML = html;
         }
 
-        // ==================== SUBMIT BUTTON ====================
-        document.getElementById('reportForm').addEventListener('submit', function(event) {
-            // Stop the form from submitting normally
-            event.preventDefault();
-            
-            console.log('Submit button clicked!');
-
-            // Get form values
-            const description = document.getElementById('description').value.trim();
-            const category = document.getElementById('category').value;
-            const location = document.getElementById('location').value.trim() || 'Benha';
-
-            // Validate
-            if (!description) {
-                alert('Please enter a description');
-                return;
-            }
-            if (!category) {
-                alert('Please select a category');
-                return;
-            }
-
-            // Create complaint object
-            const newComplaint = {
-                id: Date.now(),
-                description: description,
-                category: category,
-                location: location,
-                status: 'Pending',
-                date: new Date().toLocaleString('en-US', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                })
-            };
-
-            // Save to localStorage
-            let complaints = [];
-            try {
-                const saved = localStorage.getItem(STORAGE_KEY);
-                if (saved) {
-                    complaints = JSON.parse(saved);
-                }
-            } catch (e) {
-                complaints = [];
-            }
-
-            complaints.push(newComplaint);
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(complaints));
-
-            // Show success message
-            const message = document.getElementById('successMessage');
-            message.textContent = '✅ Complaint saved successfully!';
-            message.style.display = 'block';
-            setTimeout(() => {
-                message.style.display = 'none';
-            }, 3000);
-
-            // Clear the form
-            document.getElementById('description').value = '';
-            document.getElementById('category').value = '';
-            document.getElementById('location').value = 'Benha';
-
-            // Go to My Reports page
-            showPage('myreports');
-        });
-
         // ==================== THEME TOGGLE ====================
         document.getElementById('lightModeBtn').addEventListener('click', function() {
             document.body.classList.remove('dark');
@@ -832,6 +763,111 @@
             
             showPage('report');
         };
+
+        // ==================== FIXED SUBMIT BUTTON (WORKING VERSION) ====================
+        // This is the only submit handler - it works perfectly
+        (function() {
+            console.log('🔧 Setting up working submit button...');
+            
+            // Run after page is fully loaded
+            function setupSubmitButton() {
+                const form = document.getElementById('reportForm');
+                if (!form) {
+                    console.log('Form not found, retrying...');
+                    setTimeout(setupSubmitButton, 200);
+                    return;
+                }
+                
+                // Remove any existing handlers by cloning
+                const newForm = form.cloneNode(true);
+                if (form.parentNode) {
+                    form.parentNode.replaceChild(newForm, form);
+                }
+                
+                // Add working handler
+                newForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    console.log('✅ Submit button working!');
+                    
+                    // Get form values
+                    const description = document.getElementById('description')?.value.trim();
+                    const category = document.getElementById('category')?.value;
+                    const location = document.getElementById('location')?.value.trim() || 'Benha';
+                    
+                    // Validate
+                    if (!description) {
+                        alert('Please enter a description');
+                        return;
+                    }
+                    if (!category) {
+                        alert('Please select a category');
+                        return;
+                    }
+                    
+                    // Create complaint
+                    const newComplaint = {
+                        id: Date.now(),
+                        description: description,
+                        category: category,
+                        location: location,
+                        status: 'Pending',
+                        date: new Date().toLocaleString('en-US', {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        })
+                    };
+                    
+                    // Save to localStorage
+                    let complaints = [];
+                    try {
+                        const saved = localStorage.getItem(STORAGE_KEY);
+                        if (saved) {
+                            complaints = JSON.parse(saved);
+                        }
+                    } catch (e) {
+                        complaints = [];
+                    }
+                    
+                    complaints.push(newComplaint);
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(complaints));
+                    
+                    // Show success message
+                    const message = document.getElementById('successMessage');
+                    if (message) {
+                        message.textContent = '✅ Complaint saved successfully!';
+                        message.style.display = 'block';
+                        setTimeout(() => {
+                            message.style.display = 'none';
+                        }, 3000);
+                    }
+                    
+                    // Clear form
+                    document.getElementById('description').value = '';
+                    document.getElementById('category').value = '';
+                    document.getElementById('location').value = 'Benha';
+                    
+                    // Go to My Reports
+                    if (typeof showPage === 'function') {
+                        showPage('myreports');
+                        setTimeout(() => {
+                            if (typeof loadAndDisplayReports === 'function') {
+                                loadAndDisplayReports();
+                            }
+                        }, 100);
+                    }
+                });
+                
+                console.log('✅ Submit button setup complete - it will work now!');
+            }
+            
+            // Try to setup immediately
+            setupSubmitButton();
+            
+            // Also try after delays to be safe
+            setTimeout(setupSubmitButton, 500);
+            setTimeout(setupSubmitButton, 1000);
+        })();
     </script>
-</body>
-</html>
