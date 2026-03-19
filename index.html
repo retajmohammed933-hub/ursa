@@ -12,7 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
   
   <!-- Reports System -->
-  <script src="reports.js"></script>
+  <script src="register.js"></script>
 
   <style>
     * {
@@ -1289,5 +1289,91 @@ document.getElementById('cameraBox')?.addEventListener('click', function() {
     cameraInput.click();
 });
   </script>
+  <script>
+// SIMPLE FIX FOR CREATE ACCOUNT BUTTON
+document.getElementById('goToRegister')?.addEventListener('click', function() {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+    document.getElementById('page-register')?.classList.add('active-page');
+    document.body.classList.remove('login-page');
+});
+
+document.getElementById('backToLogin')?.addEventListener('click', function() {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+    document.getElementById('page-login')?.classList.add('active-page');
+    document.body.classList.add('login-page');
+});
+
+// Fix register form submission
+document.getElementById('registerForm')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    if (window.validateRegisterForm()) {
+        // Navigate to home after successful registration
+        setTimeout(function() {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+            document.getElementById('page-home')?.classList.add('active-page');
+            document.body.classList.remove('login-page');
+            
+            // Update user data on home page
+            if (typeof populateUserData === 'function') populateUserData();
+            if (typeof updateGreeting === 'function') updateGreeting();
+        }, 500);
+    }
+});
+</script>
+<script>
+// Force clear localStorage and fix registration
+localStorage.removeItem('ursa_users');
+localStorage.removeItem('ursa_current_user');
+console.log('Storage cleared');
+
+// Override the validation function
+window.validateRegisterForm = function() {
+    console.log('New register function running');
+    
+    const fullName = document.getElementById("regFullName")?.value.trim();
+    const nationalId = document.getElementById("regNationalId")?.value.trim();
+    const governorate = document.getElementById("regGovernorate")?.value;
+    const phone = document.getElementById("regPhone")?.value.trim();
+    const password = document.getElementById("regPassword")?.value;
+    const confirmPassword = document.getElementById("regConfirmPassword")?.value;
+
+    if (!fullName || !nationalId || !governorate || !phone || !password || !confirmPassword) {
+        alert("All fields are required.");
+        return false;
+    }
+
+    if (password !== confirmPassword) {
+        alert("Passwords do not match");
+        return false;
+    }
+
+    // Create user (NO EXISTENCE CHECK)
+    const userData = {
+        fullName,
+        nationalId,
+        governorate,
+        phone,
+        password
+    };
+
+    // Save directly
+    localStorage.setItem("ursa_users", JSON.stringify([userData]));
+    localStorage.setItem("ursa_current_user", JSON.stringify(userData));
+
+    alert("✅ Account created successfully!");
+    
+    // Go to home page
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+    const homePage = document.getElementById('page-home');
+    if (homePage) homePage.classList.add('active-page');
+    document.body.classList.remove('login-page');
+    
+    if (typeof populateUserData === 'function') populateUserData();
+    if (typeof updateGreeting === 'function') updateGreeting();
+    
+    return true;
+};
+</script>
 </body>
 </html>
