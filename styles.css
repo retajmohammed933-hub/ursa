@@ -1,3 +1,15 @@
+/* ===== Root Colors ===== */
+:root {
+  --bg-main: #062726;
+  --bg-secondary: #0b1f2a;
+  --accent-green: #39ff14;
+  --accent-blue: #00eaff;
+  --accent-magenta: #ff2e88;
+  --text-main: #e6fefe;
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.15);
+}
+
 /* ===== Global Reset ===== */
 * {
   margin: 0;
@@ -6,70 +18,102 @@
   font-family: "Poppins", sans-serif;
 }
 
-/* ===== Body Background ===== */
 body {
-  background: radial-gradient(circle at top, #0b1f2a, #062726);
-  color: #e6fefe;
+  background: radial-gradient(circle at top, var(--bg-secondary), var(--bg-main));
+  color: var(--text-main);
   min-height: 100vh;
+  line-height: 1.6;
 }
 
-/* ===== Links ===== */
-a {
-  color: #e6fefe;
-  text-decoration: none;
-  transition: 0.3s;
-}
-
-a:hover {
-  color: #39ff14;
-  text-shadow: 0 0 8px #39ff14;
-}
-
-/* ===== Navbar (auto detect header/nav) ===== */
+/* ===== Navbar ===== */
 nav, header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 15px 30px;
-
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--glass-bg);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255,255,255,0.15);
+  border-bottom: 1px solid var(--glass-border);
 }
 
-/* ===== Sections spacing ===== */
-div {
+nav a {
+  color: var(--text-main);
+  text-decoration: none;
+  margin-left: 20px;
+  transition: 0.3s;
 }
 
-/* ===== Headings ===== */
-h1, h2, h3 {
-  background: linear-gradient(90deg, #39ff14, #00eaff);
+nav a:hover {
+  color: var(--accent-green);
+  text-shadow: 0 0 8px var(--accent-green);
+}
+
+/* ===== Logo Size Fix ===== */
+nav img {
+  height: 40px;
+  width: auto;
+}
+
+nav h1, nav h2 {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* ===== Hero Section ===== */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  padding: 60px 20px;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  background: linear-gradient(90deg, var(--accent-green), var(--accent-blue));
   -webkit-background-clip: text;
   color: transparent;
   text-shadow: 0 0 20px rgba(0,255,150,0.3);
 }
 
-/* ===== Cards (auto apply to divs) ===== */
-div {
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.1);
-  backdrop-filter: blur(10px);
-  margin: 20px 0;
-  transition: 0.3s;
+.hero p {
+  margin-top: 15px;
+  max-width: 600px;
+  opacity: 0.8;
 }
 
-div:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 0 20px rgba(0,255,200,0.2);
+/* ===== Cards (Use only if your HTML has card-like divs) ===== */
+.card {
+  background: var(--glass-bg);
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(20px);
+  padding: 25px;
+  transition: 0.3s;
+  margin: 20px 0;
+}
+
+.card:hover {
+  transform: translateY(-5px) scale(1.02);
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 25px rgba(0, 255, 200, 0.2);
+}
+
+.card h3 {
+  margin-bottom: 10px;
+}
+
+.card p {
+  opacity: 0.7;
 }
 
 /* ===== Buttons ===== */
 button, input[type="submit"] {
-  padding: 10px 20px;
-  border-radius: 25px;
+  padding: 12px 25px;
+  border-radius: 30px;
   border: none;
-  background: linear-gradient(90deg, #39ff14, #00eaff);
+  background: linear-gradient(90deg, var(--accent-green), var(--accent-blue));
   color: black;
   font-weight: bold;
   cursor: pointer;
@@ -77,17 +121,17 @@ button, input[type="submit"] {
 }
 
 button:hover {
-  box-shadow: 0 0 20px #39ff14;
+  box-shadow: 0 0 20px var(--accent-green);
   transform: scale(1.05);
 }
 
-/* ===== Glow Effects (auto decorative) ===== */
+/* ===== Glow Effects ===== */
 body::before {
   content: "";
   position: fixed;
   width: 300px;
   height: 300px;
-  background: radial-gradient(circle, #00eaff, transparent);
+  background: radial-gradient(circle, var(--accent-blue), transparent);
   filter: blur(120px);
   top: 10%;
   left: 5%;
@@ -99,9 +143,14 @@ body::after {
   position: fixed;
   width: 300px;
   height: 300px;
-  background: radial-gradient(circle, #ff2e88, transparent);
+  background: radial-gradient(circle, var(--accent-magenta), transparent);
   filter: blur(120px);
   bottom: 10%;
   right: 5%;
   z-index: -1;
+}
+
+/* ===== Safe spacing for sections ===== */
+section {
+  padding: 40px 20px;
 }
