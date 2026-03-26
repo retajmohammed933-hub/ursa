@@ -5,34 +5,93 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>URSA - Home</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body class="dark" data-page="home">
   <div class="overlay" id="overlay"></div>
-  <aside class="sidebar" id="sidebar">
-    <div class="close-btn" id="closeSidebar">&times;</div>
-    <ul>
-      <li><a data-page="home">Home</a></li><li><a data-page="report">Report</a></li><li><a data-page="myreports">My Reports</a></li>
-      <li><a data-page="map">Map</a></li><li><a data-page="emergency">Emergency</a></li><li><a data-page="settings">Settings</a></li>
-    </ul>
-  </aside>
-  <div class="top-bar"><div class="logo-area"><div class="hamburger" id="openSidebar"><i class="fas fa-bars"></i></div><div class="logo-container"><div class="logo-image"><img src="URSA 3.png" alt="URSA Logo" /></div><div class="logo">URSA</div></div></div><div class="theme-toggle"><i class="fas fa-sun" id="lightModeBtn"></i><i class="fas fa-moon active" id="darkModeBtn"></i></div></div>
-  <div class="container">
-    <h1>Dashboard</h1>
-    <p id="homeGreeting" style="color: var(--text-secondary); margin-bottom: 16px;">Good evening</p>
-    <div class="glass-card">
-      <h2 id="homeUserName">User Name</h2>
-      <p id="homeUserMeta">National ID</p>
-      <div class="profile-row" style="margin-top:12px;">
-        <div class="glass-card" id="homeGovernorate">Governorate</div>
-        <div class="glass-card" id="homePhone">Phone</div>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="close-btn" id="closeSidebar">&times;</div>
+      <div class="brand-stack">
+        <div class="logo-image"><img src="URSA 3.png" alt="URSA Logo" /></div>
+        <div class="brand-copy"><div class="logo">URSA</div><p>Urban response hub</p></div>
       </div>
-    </div>
-    <div class="dash-grid">
-      <div class="glass-card"><h3>Quick report</h3><button class="glass-btn primary" id="quickReport" type="button">Open camera</button></div>
-      <div class="glass-card"><h3>Safety stats</h3><p>Your account is ready</p></div>
-      <div class="glass-card"><h3>Account</h3><p>Logged in</p></div>
+      <div class="sidebar-group-label">Navigation</div>
+      <ul>
+        <li><a data-page="home"><i class="fas fa-house"></i><span>Home</span></a></li>
+        <li><a data-page="report"><i class="fas fa-flag"></i><span>Report</span></a></li>
+        <li><a data-page="myreports"><i class="fas fa-folder-open"></i><span>My Reports</span></a></li>
+        <li><a data-page="map"><i class="fas fa-map-location-dot"></i><span>Map</span></a></li>
+        <li><a data-page="emergency"><i class="fas fa-phone-volume"></i><span>Emergency</span></a></li>
+        <li><a data-page="settings"><i class="fas fa-sliders"></i><span>Settings</span></a></li>
+      </ul>
+      <div class="sidebar-card"><h3>Stay ready</h3><p>Use quick reporting for urgent situations and keep your account details updated for a smoother response flow.</p></div>
+    </aside>
+    <div class="page-shell">
+      <header class="top-bar">
+        <div class="logo-area">
+          <button class="hamburger" id="openSidebar" type="button" aria-label="Open navigation"><i class="fas fa-bars"></i></button>
+          <div class="topbar-copy"><h2>Safety Dashboard</h2><p id="homeGreeting">Good evening</p></div>
+        </div>
+        <div class="theme-toggle">
+          <i class="fas fa-sun" id="lightModeBtn" aria-label="Light mode"></i>
+          <i class="fas fa-moon active" id="darkModeBtn" aria-label="Dark mode"></i>
+        </div>
+      </header>
+      <main class="container">
+        <section class="hero-card">
+          <div class="hero-grid">
+            <div>
+              <div class="hero-eyebrow"><i class="fas fa-shield-heart"></i> Community safety</div>
+              <h1 class="hero-title">Report faster. Track clearly. Reach help instantly.</h1>
+              <p class="hero-text">URSA gives you a cleaner command center for incidents, emergency contact, and account visibility so the product feels useful the moment it opens.</p>
+              <div class="hero-actions">
+                <button class="glass-btn primary" id="quickReport" type="button"><i class="fas fa-camera"></i> Quick report</button>
+                <a class="glass-btn" href="myreports.html"><i class="fas fa-list-check"></i> View my reports</a>
+              </div>
+            </div>
+            <div class="status-card">
+              <span class="hero-eyebrow"><i class="fas fa-bolt"></i> Ready now</span>
+              <strong>Emergency shortcuts</strong>
+              <p class="status-note">Your dashboard is organized around the actions that matter most when time is limited.</p>
+              <div class="kpi-list">
+                <div class="kpi-item"><strong>3</strong><span>Core emergency lines always visible</span></div>
+                <div class="kpi-item"><strong>1 tap</strong><span>Start a new report with camera capture</span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="profile-grid">
+          <div class="glass-card">
+            <div class="profile-card">
+              <div class="avatar-badge" id="homeAvatar">U</div>
+              <div class="profile-copy">
+                <h2 id="homeUserName">User Name</h2>
+                <p id="homeUserMeta">National ID</p>
+              </div>
+            </div>
+            <div class="profile-row">
+              <div class="info-tile"><span>Governorate</span><strong id="homeGovernorate">Governorate</strong></div>
+              <div class="info-tile"><span>Phone</span><strong id="homePhone">Phone</strong></div>
+            </div>
+          </div>
+          <div class="panel-card">
+            <div class="section-heading"><div><h3>Today’s overview</h3><p>Focus on the next action, not the clutter.</p></div></div>
+            <div class="kpi-list">
+              <div class="kpi-item"><strong>Live</strong><span>Complaint history is saved locally on this device</span></div>
+              <div class="kpi-item"><strong>Secure</strong><span>Your profile stays available between sessions</span></div>
+            </div>
+          </div>
+        </section>
+        <section class="dash-grid">
+          <div class="mini-card"><i class="fas fa-file-circle-plus"></i><h3 class="card-title" style="margin: 14px 0 8px;">Create a report</h3><p>Use a clearer form with categories, location, and optional media attachment.</p></div>
+          <div class="mini-card"><i class="fas fa-timeline"></i><h3 class="card-title" style="margin: 14px 0 8px;">Track your activity</h3><p>Review submitted complaints in a cleaner history view with visible status badges.</p></div>
+          <div class="mini-card"><i class="fas fa-phone-volume"></i><h3 class="card-title" style="margin: 14px 0 8px;">Emergency center</h3><p>Get instant access to Police, Ambulance, and Fire support from one place.</p></div>
+        </section>
+      </main>
     </div>
   </div>
   <script src="app.js"></script>

@@ -5,20 +5,51 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>URSA - My Reports</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body class="dark" data-page="myreports">
   <div class="overlay" id="overlay"></div>
-  <aside class="sidebar" id="sidebar"><div class="close-btn" id="closeSidebar">&times;</div><ul><li><a data-page="home">Home</a></li><li><a data-page="report">Report</a></li><li><a data-page="myreports">My Reports</a></li><li><a data-page="map">Map</a></li><li><a data-page="emergency">Emergency</a></li><li><a data-page="settings">Settings</a></li></ul></aside>
-  <div class="top-bar"><div class="logo-area"><div class="hamburger" id="openSidebar"><i class="fas fa-bars"></i></div><div class="logo-container"><div class="logo-image"><img src="URSA 3.png" alt="URSA Logo" /></div><div class="logo">URSA</div></div></div><div class="theme-toggle"><i class="fas fa-sun" id="lightModeBtn"></i><i class="fas fa-moon active" id="darkModeBtn"></i></div></div>
-  <div class="container">
-    <div class="glass-card">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-        <h2>My Complaints</h2>
-        <button class="glass-btn primary" onclick="newReport()">New Report</button>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="close-btn" id="closeSidebar">&times;</div>
+      <div class="brand-stack">
+        <div class="logo-image"><img src="URSA 3.png" alt="URSA Logo" /></div>
+        <div class="brand-copy"><div class="logo">URSA</div><p>Urban response hub</p></div>
       </div>
-      <div id="reportsContainer"></div>
+      <div class="sidebar-group-label">Navigation</div>
+      <ul>
+        <li><a data-page="home"><i class="fas fa-house"></i><span>Home</span></a></li>
+        <li><a data-page="report"><i class="fas fa-flag"></i><span>Report</span></a></li>
+        <li><a data-page="myreports"><i class="fas fa-folder-open"></i><span>My Reports</span></a></li>
+        <li><a data-page="map"><i class="fas fa-map-location-dot"></i><span>Map</span></a></li>
+        <li><a data-page="emergency"><i class="fas fa-phone-volume"></i><span>Emergency</span></a></li>
+        <li><a data-page="settings"><i class="fas fa-sliders"></i><span>Settings</span></a></li>
+      </ul>
+      <div class="sidebar-card"><h3>Your history</h3><p>Every submitted complaint appears here with its category, place, and current status.</p></div>
+    </aside>
+    <div class="page-shell">
+      <header class="top-bar">
+        <div class="logo-area">
+          <button class="hamburger" id="openSidebar" type="button" aria-label="Open navigation"><i class="fas fa-bars"></i></button>
+          <div class="topbar-copy"><h2>My Reports</h2><p>See everything you’ve submitted in one clean feed</p></div>
+        </div>
+        <div class="theme-toggle">
+          <i class="fas fa-sun" id="lightModeBtn" aria-label="Light mode"></i>
+          <i class="fas fa-moon active" id="darkModeBtn" aria-label="Dark mode"></i>
+        </div>
+      </header>
+      <main class="container">
+        <section class="glass-card">
+          <div class="section-heading">
+            <div><h2>Complaint history</h2><p>Review your recent reports and create a new one when needed.</p></div>
+            <button class="glass-btn primary" onclick="newReport()" type="button"><i class="fas fa-plus"></i> New report</button>
+          </div>
+          <div id="reportsContainer"></div>
+        </section>
+      </main>
     </div>
   </div>
   <script src="app.js"></script>

@@ -95,6 +95,7 @@ function populateUserData() {
   document.getElementById("homeUserMeta") && (document.getElementById("homeUserMeta").textContent = `National ID: ${user.nationalId || "-"}`);
   document.getElementById("homeGovernorate") && (document.getElementById("homeGovernorate").textContent = user.governorate || "-");
   document.getElementById("homePhone") && (document.getElementById("homePhone").textContent = user.phone || "-");
+  document.getElementById("homeAvatar") && (document.getElementById("homeAvatar").textContent = (user.fullName || "U").trim().charAt(0).toUpperCase());
   document.getElementById("settingsFullName") && (document.getElementById("settingsFullName").value = user.fullName || "");
   document.getElementById("settingsPhone") && (document.getElementById("settingsPhone").value = user.phone || "");
   document.getElementById("settingsGovernorate") && (document.getElementById("settingsGovernorate").value = user.governorate || "");
@@ -108,6 +109,7 @@ function bindLayout() {
     if (currentPage === page) link.classList.add("active");
     link.addEventListener("click", e => {
       e.preventDefault();
+      closeSidebar();
       navigate(page);
     });
   });
@@ -218,10 +220,20 @@ function loadReports() {
   if (!container) return;
   const reports = JSON.parse(localStorage.getItem(STORAGE_KEYS.complaints) || "[]").reverse();
   if (!reports.length) {
-    container.innerHTML = '<p style="text-align:center;">No complaints yet</p>';
+    container.innerHTML = '<div class="empty-state"><h3>No reports yet</h3><p>Your complaint history will appear here after you submit the first report.</p></div>';
     return;
   }
-  container.innerHTML = reports.map(r => `<div class="report-card"><p><strong>${r.description}</strong></p><p>Category: ${r.category}</p><p>Location: ${r.location}</p><p>${r.date}</p><span class="badge">${r.status}</span></div>`).join("");
+  container.innerHTML = reports.map(r => `
+    <div class="report-card">
+      <strong>${r.description}</strong>
+      <p>${r.category}</p>
+      <div class="report-meta">
+        <span><i class="fas fa-location-dot"></i> ${r.location}</span>
+        <span><i class="fas fa-clock"></i> ${r.date}</span>
+      </div>
+      <span class="badge">${r.status}</span>
+    </div>
+  `).join("");
 }
 
 function bindSettings() {
@@ -245,6 +257,15 @@ function bindSettings() {
 }
 
 function bindQuickReport() {
+  const renderPendingMedia = () => {
+    const preview = document.getElementById("cameraPreview");
+    const box = document.getElementById("cameraBox");
+    const mediaName = sessionStorage.getItem("ursa_pending_media_name");
+    if (!preview || !box || !mediaName) return;
+    preview.classList.add("active");
+    preview.innerHTML = `<div class="report-card"><strong>Attached media</strong><p>${mediaName}</p></div>`;
+  };
+
   const pickMedia = () => {
     const input = document.createElement("input");
     input.type = "file";
@@ -260,6 +281,7 @@ function bindQuickReport() {
   };
   document.getElementById("quickReport")?.addEventListener("click", pickMedia);
   document.getElementById("cameraBox")?.addEventListener("click", pickMedia);
+  renderPendingMedia();
 }
 
 function guardAuth() {
