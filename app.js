@@ -36,6 +36,23 @@ function clearCurrentUser() {
   localStorage.removeItem(STORAGE_KEYS.currentUser);
 }
 
+function getValidatedCurrentUser() {
+  const currentUser = getCurrentUser();
+  if (!currentUser) return null;
+
+  const users = getUsers();
+  const existingUser = users.find(
+    u => u.nationalId === currentUser.nationalId && u.phone === currentUser.phone
+  );
+
+  if (!existingUser) {
+    clearCurrentUser();
+    return null;
+  }
+
+  return existingUser;
+}
+
 function navigate(pageName) {
   const target = PAGE_FILES[pageName];
   if (target) window.location.href = target;
@@ -72,7 +89,7 @@ function updateGreeting() {
 }
 
 function populateUserData() {
-  const user = getCurrentUser();
+  const user = getValidatedCurrentUser();
   if (!user) return;
   document.getElementById("homeUserName") && (document.getElementById("homeUserName").textContent = user.fullName || "User");
   document.getElementById("homeUserMeta") && (document.getElementById("homeUserMeta").textContent = `National ID: ${user.nationalId || "-"}`);
@@ -248,7 +265,7 @@ function bindQuickReport() {
 function guardAuth() {
   const page = document.body.dataset.page;
   const authPages = new Set(["login", "register"]);
-  const user = getCurrentUser();
+  const user = getValidatedCurrentUser();
   if (!authPages.has(page) && !user) navigate("login");
   if (authPages.has(page) && user) navigate("home");
 }
