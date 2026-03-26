@@ -1,181 +1,108 @@
-/* URSA UNIFIED SYSTEM STYLE 
-  Base Color: #062726
-*/
-
-:root {
-  /* Core Palette */
-  --bg: #062726;
-  --bg-alt: #031413;
-  
-  /* Glassmorphism */
-  --panel: rgba(6, 39, 38, 0.75);
-  --panel-strong: rgba(10, 58, 55, 0.95);
-  --panel-soft: rgba(255, 255, 255, 0.04);
-  
-  /* Typography & Accents */
-  --text: #e0f2f1;
-  --muted: #7da09d;
-  --muted-strong: #a5c7c4;
-  
-  /* The Glows */
-  --accent: #00ffd5;      /* Electric Cyan */
-  --accent-2: #39ff14;    /* Neon Green */
-  --accent-warm: #d400ff;  /* Depth Magenta */
-  
-  /* Borders & Effects */
-  --line: rgba(0, 255, 213, 0.15);
-  --shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
-  --radius-xl: 28px;
-  --radius-lg: 18px;
-  --radius-md: 14px;
-}
-
-/* --- Global Reset --- */
+/* ===== Global Reset ===== */
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
 
+/* ===== Body Background ===== */
 body {
-  font-family: "Manrope", sans-serif;
-  color: var(--text);
+  background: radial-gradient(circle at top, #0b1f2a, #062726);
+  color: #e6fefe;
   min-height: 100vh;
-  /* Multi-layered background for 3D depth */
-  background: 
-    radial-gradient(circle at 20% 20%, rgba(0, 255, 213, 0.07), transparent 40%),
-    radial-gradient(circle at 80% 80%, rgba(57, 255, 20, 0.04), transparent 40%),
-    linear-gradient(165deg, var(--bg), var(--bg-alt));
-  background-attachment: fixed;
-  line-height: 1.6;
-  overflow-x: hidden;
 }
 
-/* The Grid Overlay from the design */
+/* ===== Links ===== */
+a {
+  color: #e6fefe;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+a:hover {
+  color: #39ff14;
+  text-shadow: 0 0 8px #39ff14;
+}
+
+/* ===== Navbar (auto detect header/nav) ===== */
+nav, header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+
+/* ===== Sections spacing ===== */
+section, div {
+  padding: 40px;
+}
+
+/* ===== Headings ===== */
+h1, h2, h3 {
+  background: linear-gradient(90deg, #39ff14, #00eaff);
+  -webkit-background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 20px rgba(0,255,150,0.3);
+}
+
+/* ===== Cards (auto apply to divs) ===== */
+div {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  margin: 20px 0;
+  transition: 0.3s;
+}
+
+div:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 20px rgba(0,255,200,0.2);
+}
+
+/* ===== Buttons ===== */
+button, input[type="submit"] {
+  padding: 10px 20px;
+  border-radius: 25px;
+  border: none;
+  background: linear-gradient(90deg, #39ff14, #00eaff);
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  box-shadow: 0 0 20px #39ff14;
+  transform: scale(1.05);
+}
+
+/* ===== Glow Effects (auto decorative) ===== */
 body::before {
   content: "";
   position: fixed;
-  inset: 0;
-  background-image: 
-    linear-gradient(var(--line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line) 1px, transparent 1px);
-  background-size: 50px 50px;
-  mask-image: radial-gradient(circle at center, black 30%, transparent 90%);
-  opacity: 0.12;
-  pointer-events: none;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, #00eaff, transparent);
+  filter: blur(120px);
+  top: 10%;
+  left: 5%;
+  z-index: -1;
 }
 
-/* --- Logo Fix (This solves your giant image issue) --- */
-.logo-container, .brand-stack {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-/* Targeted fix for the image you sent */
-img[src*="ursa"], .logo-image img, .main-logo {
-  width: 100%;
-  max-width: 260px; /* Adjust this to make the logo smaller/larger */
-  height: auto;
-  filter: drop-shadow(0 0 25px rgba(0, 255, 213, 0.25));
-  margin-bottom: 2rem;
-}
-
-/* --- Layout Components --- */
-.app-shell, .auth-shell {
-  width: min(1200px, calc(100% - 40px));
-  margin: 40px auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* --- Card Styles (Glassmorphism) --- */
-.hero-card, .auth-card, .glass-card {
-  background: var(--panel);
-  backdrop-filter: blur(25px) saturate(170%);
-  -webkit-backdrop-filter: blur(25px) saturate(170%);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow);
-  padding: 35px;
-  width: 100%;
-  max-width: 450px; /* Keeps the login box centered and sleek */
-}
-
-/* --- Typography --- */
-h1, h2, .hero-title {
-  font-family: "Space Grotesk", sans-serif;
-  letter-spacing: -0.03em;
-  font-weight: 700;
-  background: linear-gradient(180deg, #ffffff 40%, var(--muted) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 1rem;
-}
-
-/* --- Form Elements --- */
-.glass-input {
-  width: 100%;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 14px;
-  color: white;
-  margin-bottom: 15px;
-  outline: none;
-  transition: 0.3s ease;
-}
-
-.glass-input:focus {
-  border-color: var(--accent);
-  background: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 0 15px rgba(0, 255, 213, 0.1);
-}
-
-/* --- The Neon Button --- */
-.glass-btn.primary {
-  width: 100%;
-  padding: 14px;
-  border-radius: 12px;
-  border: none;
-  background: linear-gradient(90deg, var(--accent), #00d4ff);
-  color: #062726;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  cursor: pointer;
-  box-shadow: 0 0 25px rgba(0, 255, 213, 0.4);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.glass-btn.primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 35px rgba(0, 255, 213, 0.6);
-}
-
-/* Small links below button */
-.auth-card a {
-  color: var(--muted);
-  text-decoration: none;
-  font-size: 0.9rem;
-  display: block;
-  text-align: center;
-  margin-top: 15px;
-}
-
-.auth-card a:hover {
-  color: var(--accent);
-}
-
-/* --- Responsive Layout --- */
-@media (max-width: 768px) {
-  .hero-card, .auth-card {
-    padding: 20px;
-  }
-  img[src*="ursa"] {
-    max-width: 200px;
-  }
+body::after {
+  content: "";
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, #ff2e88, transparent);
+  filter: blur(120px);
+  bottom: 10%;
+  right: 5%;
+  z-index: -1;
 }
