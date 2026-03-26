@@ -13,7 +13,19 @@ const PAGE_FILES = {
   myreports: "myreports.html",
   map: "map.html",
   emergency: "emergency.html",
-  settings: "settings.html"
+  settings: "settings.html",
+  admin: "admin.html",
+  adminsettings: "admin-settings.html"
+};
+
+const ADMIN_ACCOUNT = {
+  fullName: "System Admin",
+  email: "admin@ursa.local",
+  phone: "00000000000",
+  nationalId: "00000000000",
+  governorate: "Admin",
+  password: "00000",
+  isAdmin: true
 };
 
 function getUsers() {
@@ -34,6 +46,22 @@ function setCurrentUser(user) {
 
 function clearCurrentUser() {
   localStorage.removeItem(STORAGE_KEYS.currentUser);
+}
+
+function ensureAdminAccount() {
+  const users = getUsers();
+  const existingAdmin = users.find(
+    u => u.isAdmin || u.email === ADMIN_ACCOUNT.email || u.phone === ADMIN_ACCOUNT.phone || u.nationalId === ADMIN_ACCOUNT.nationalId
+  );
+  if (existingAdmin) {
+    if (!existingAdmin.isAdmin) {
+      existingAdmin.isAdmin = true;
+      setUsers(users);
+    }
+    return;
+  }
+  users.push({ ...ADMIN_ACCOUNT });
+  setUsers(users);
 }
 
 function getValidatedCurrentUser() {
@@ -128,7 +156,9 @@ function bindAuthPages() {
     e.preventDefault();
     const identifier = document.getElementById("loginIdentifier").value.trim();
     const password = document.getElementById("loginPassword").value;
-    const user = getUsers().find(u => (u.phone === identifier || u.nationalId === identifier) && u.password === password);
+    const user = getUsers().find(
+      u => (u.phone === identifier || u.nationalId === identifier || u.email === identifier) && u.password === password
+    );
     if (!user) {
       const err = document.getElementById("loginError");
       err.textContent = "Wrong credentials";
@@ -136,7 +166,7 @@ function bindAuthPages() {
       return;
     }
     setCurrentUser(user);
-    navigate("home");
+    navigate(user.isAdmin ? "admin" : "home");
   });
 
   document.getElementById("registerForm")?.addEventListener("submit", e => {
@@ -169,7 +199,7 @@ function bindAuthPages() {
     }
 
     const users = getUsers();
-    if (users.some(u => u.phone === phone || u.nationalId === nationalId)) {
+    if (users.some(u => u.phone === phone || u.nationalId === nationalId || u.email === phone || u.email === nationalId)) {
       errorEl.textContent = "This account already exists.";
       errorEl.style.display = "block";
       return;
@@ -196,6 +226,8 @@ function bindReportPage() {
 
   document.getElementById("reportForm")?.addEventListener("submit", e => {
     e.preventDefault();
+    const user = getValidatedCurrentUser();
+    if (!user) return navigate("login");
     const category = document.getElementById("selectedCategory").value;
     const description = document.getElementById("reportDescription").value.trim();
     const location = document.getElementById("reportLocation").value.trim();
@@ -206,6 +238,9 @@ function bindReportPage() {
       description,
       category,
       location,
+      userNationalId: user.nationalId,
+      userPhone: user.phone,
+      userName: user.fullName,
       status: "Pending",
       date: new Date().toLocaleString()
     });
@@ -218,7 +253,11 @@ function bindReportPage() {
 function loadReports() {
   const container = document.getElementById("reportsContainer");
   if (!container) return;
-  const reports = JSON.parse(localStorage.getItem(STORAGE_KEYS.complaints) || "[]").reverse();
+  const user = getValidatedCurrentUser();
+  const allReports = JSON.parse(localStorage.getItem(STORAGE_KEYS.complaints) || "[]");
+  const reports = allReports
+    .filter(r => !user || r.userNationalId === user.nationalId)
+    .reverse();
   if (!reports.length) {
     container.innerHTML = '<div class="empty-state"><h3>No reports yet</h3><p>Your complaint history will appear here after you submit the first report.</p></div>';
     return;
@@ -234,6 +273,136 @@ function loadReports() {
       <span class="badge">${r.status}</span>
     </div>
   `).join("");
+}
+
+function updateReportStatus(reportId, status) {
+  const reports = JSON.parse(localStorage.getItem(STORAGE_KEYS.complaints) || "[]");
+  const updated = reports.map(r => (String(r.id) === String(reportId) ? { ...r, status } : r));
+  localStorage.setItem(STORAGE_KEYS.complaints, JSON.stringify(updated));
+}
+
+function deleteReport(reportId) {
+  const reports = JSON.parse(localStorage.getItem(STORAGE_KEYS.complaints) || "[]");
+  const filtered = reports.filter(r => String(r.id) !== String(reportId));
+  localStorage.setItem(STORAGE_KEYS.complaints, JSON.stringify(filtered));
+}
+
+function deleteUser(nationalId) {
+  const users = getUsers().filter(u => u.nationalId !== nationalId || u.isAdmin);
+  setUsers(users);
+  const reports = JSON.parse(localStorage.getItem(STORAGE_KEYS.complaints) || "[]");
+  const filteredReports = reports.filter(r => r.userNationalId !== nationalId);
+  localStorage.setItem(STORAGE_KEYS.complaints, JSON.stringify(filteredReports));
+}
+
+function bindAdminPage() {
+  const reportsContainer = document.getElementById("adminReportsContainer");
+  const usersContainer = document.getElementById("adminUsersContainer");
+  if (!reportsContainer && !usersContainer) return;
+
+  const render = () => {
+    const reports = JSON.parse(localStorage.getItem(STORAGE_KEYS.complaints) || "[]").reverse();
+    const users = getUsers().filter(u => !u.isAdmin);
+
+    if (reportsContainer) {
+      reportsContainer.innerHTML = reports.length
+        ? reports.map(r => `
+          <div class="report-card">
+            <strong>${r.description}</strong>
+            <p>${r.category} - <span class="field-hint">${r.status}</span></p>
+            <div class="report-meta">
+              <span><i class="fas fa-user"></i> ${r.userName || "Unknown user"}</span>
+              <span><i class="fas fa-id-card"></i> ${r.userNationalId || "-"}</span>
+            </div>
+            <div class="report-meta">
+              <span><i class="fas fa-location-dot"></i> ${r.location}</span>
+              <span><i class="fas fa-clock"></i> ${r.date}</span>
+            </div>
+            <div class="button-row">
+              <button type="button" class="glass-btn" data-action="status" data-id="${r.id}" data-status="Processing">Processing</button>
+              <button type="button" class="glass-btn primary" data-action="status" data-id="${r.id}" data-status="Approved">Approve</button>
+              <button type="button" class="glass-btn" data-action="status" data-id="${r.id}" data-status="Denied">Deny</button>
+              <button type="button" class="glass-btn" data-action="delete-report" data-id="${r.id}">Delete</button>
+            </div>
+          </div>
+        `).join("")
+        : '<div class="empty-state"><h3>No reports yet</h3><p>Reports submitted by users will appear here.</p></div>';
+    }
+
+    if (usersContainer) {
+      usersContainer.innerHTML = users.length
+        ? users.map(u => {
+          const ownedReports = reports.filter(r => r.userNationalId === u.nationalId);
+          const reportItems = ownedReports.length
+            ? ownedReports.map(r => `<p><strong>${r.category}</strong> - ${r.status} - ${r.location}</p>`).join("")
+            : '<p class="field-hint">No reports from this user yet.</p>';
+          return `
+            <div class="report-card">
+              <strong>${u.fullName}</strong>
+              <p>Phone: ${u.phone}</p>
+              <p>National ID: ${u.nationalId}</p>
+              <div class="kpi-item"><strong>${ownedReports.length}</strong><span>User reports</span></div>
+              <div>${reportItems}</div>
+              <div class="button-row">
+                <button type="button" class="glass-btn" data-action="delete-user" data-nationalid="${u.nationalId}">Delete user and reports</button>
+              </div>
+            </div>
+          `;
+        }).join("")
+        : '<div class="empty-state"><h3>No user accounts</h3><p>Registered users will appear here.</p></div>';
+    }
+  };
+
+  document.addEventListener("click", e => {
+    const btn = e.target.closest("button[data-action]");
+    if (!btn) return;
+    const action = btn.dataset.action;
+    if (action === "status") {
+      updateReportStatus(btn.dataset.id, btn.dataset.status);
+      render();
+    } else if (action === "delete-report") {
+      deleteReport(btn.dataset.id);
+      render();
+    } else if (action === "delete-user") {
+      deleteUser(btn.dataset.nationalid);
+      render();
+    }
+  });
+
+  document.getElementById("adminLogoutBtn")?.addEventListener("click", () => {
+    clearCurrentUser();
+    navigate("login");
+  });
+
+  render();
+}
+
+function bindAdminSettings() {
+  const form = document.getElementById("adminSettingsForm");
+  if (!form) return;
+  const user = getValidatedCurrentUser();
+  if (!user || !user.isAdmin) return navigate("login");
+
+  document.getElementById("adminEmail") && (document.getElementById("adminEmail").value = user.email || "");
+  document.getElementById("adminPhone") && (document.getElementById("adminPhone").value = user.phone || "");
+  document.getElementById("adminNationalId") && (document.getElementById("adminNationalId").value = user.nationalId || "");
+
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    const users = getUsers();
+    const current = getValidatedCurrentUser();
+    if (!current) return;
+    const updated = {
+      ...current,
+      email: document.getElementById("adminEmail").value.trim(),
+      phone: document.getElementById("adminPhone").value.trim(),
+      nationalId: document.getElementById("adminNationalId").value.trim()
+    };
+    const nextUsers = users.map(u => (u.isAdmin ? { ...u, ...updated, isAdmin: true } : u));
+    setUsers(nextUsers);
+    setCurrentUser(updated);
+    alert("Admin settings updated.");
+  });
 }
 
 function bindSettings() {
@@ -259,9 +428,8 @@ function bindSettings() {
 function bindQuickReport() {
   const renderPendingMedia = () => {
     const preview = document.getElementById("cameraPreview");
-    const box = document.getElementById("cameraBox");
     const mediaName = sessionStorage.getItem("ursa_pending_media_name");
-    if (!preview || !box || !mediaName) return;
+    if (!preview || !mediaName) return;
     preview.classList.add("active");
     preview.innerHTML = `<div class="report-card"><strong>Attached media</strong><p>${mediaName}</p></div>`;
   };
@@ -280,45 +448,30 @@ function bindQuickReport() {
     input.click();
   };
 
-  const modal = document.getElementById("mediaChoiceModal");
-  const openMediaChoice = () => {
-    if (!modal) return pickMedia(false);
-    modal.classList.add("active");
-    modal.setAttribute("aria-hidden", "false");
-  };
-  const closeMediaChoice = () => {
-    if (!modal) return;
-    modal.classList.remove("active");
-    modal.setAttribute("aria-hidden", "true");
-  };
-
-  modal?.addEventListener("click", e => {
-    if (e.target === modal) closeMediaChoice();
-  });
-
   document.getElementById("uploadMediaBtn")?.addEventListener("click", () => {
-    closeMediaChoice();
     pickMedia(false);
   });
   document.getElementById("captureMediaBtn")?.addEventListener("click", () => {
-    closeMediaChoice();
     pickMedia(true);
   });
 
-  document.getElementById("quickReport")?.addEventListener("click", openMediaChoice);
-  document.getElementById("cameraBox")?.addEventListener("click", openMediaChoice);
+  document.getElementById("quickReport")?.addEventListener("click", () => pickMedia(false));
   renderPendingMedia();
 }
 
 function guardAuth() {
   const page = document.body.dataset.page;
   const authPages = new Set(["login", "register"]);
+  const adminPages = new Set(["admin", "adminsettings"]);
   const user = getValidatedCurrentUser();
-  if (!authPages.has(page) && !user) navigate("login");
-  if (authPages.has(page) && user) navigate("home");
+  if (!authPages.has(page) && !user) return navigate("login");
+  if (adminPages.has(page) && !user?.isAdmin) return navigate("home");
+  if (!adminPages.has(page) && user?.isAdmin && !authPages.has(page)) return navigate("admin");
+  if (authPages.has(page) && user) return navigate(user.isAdmin ? "admin" : "home");
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  ensureAdminAccount();
   applyTheme(localStorage.getItem(STORAGE_KEYS.theme) || "dark");
   bindLayout();
   bindAuthPages();
@@ -327,6 +480,8 @@ document.addEventListener("DOMContentLoaded", () => {
   updateGreeting();
   bindReportPage();
   bindSettings();
+  bindAdminPage();
+  bindAdminSettings();
   bindQuickReport();
   loadReports();
   window.showPage = navigate;

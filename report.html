@@ -54,19 +54,13 @@
                 <button type="button" class="glass-btn category-btn" data-category="Broken Light"><i class="fas fa-lightbulb"></i> Broken Light</button>
               </div>
               <input type="hidden" id="selectedCategory" />
-              <div class="camera-box" id="cameraBox">
-                <div><strong>Attach photo or video</strong><p class="field-hint">Use your camera or choose media from this device.</p></div>
+              <div class="camera-box">
+                <div><strong>Attach photo or video</strong><p class="field-hint">Choose to upload from device or capture immediately.</p></div>
                 <i class="fas fa-camera-retro"></i>
               </div>
-              <div class="media-choice-modal" id="mediaChoiceModal" aria-hidden="true">
-                <div class="media-choice-card">
-                  <strong>Attach media</strong>
-                  <p class="field-hint">Choose how you want to add a photo or video.</p>
-                  <div class="button-row">
-                    <button type="button" class="glass-btn" id="uploadMediaBtn"><i class="fas fa-upload"></i> Upload</button>
-                    <button type="button" class="glass-btn primary" id="captureMediaBtn"><i class="fas fa-camera"></i> Take now</button>
-                  </div>
-                </div>
+              <div class="button-row">
+                <button type="button" class="glass-btn" id="uploadMediaBtn"><i class="fas fa-upload"></i> Upload photo/video</button>
+                <button type="button" class="glass-btn primary" id="captureMediaBtn"><i class="fas fa-camera"></i> Take now</button>
               </div>
               <div class="camera-preview" id="cameraPreview"></div>
               <button type="submit" class="glass-btn primary"><i class="fas fa-paper-plane"></i> Submit report</button>
