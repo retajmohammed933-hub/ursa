@@ -101,6 +101,10 @@ button {
   visibility: visible;
 }
 
+body.login-page .sidebar {
+  display: none;
+}
+
 .app-shell {
   width: min(1440px, calc(100% - 32px));
   margin: 16px auto;
