@@ -266,11 +266,11 @@ function bindQuickReport() {
     preview.innerHTML = `<div class="report-card"><strong>Attached media</strong><p>${mediaName}</p></div>`;
   };
 
-  const pickMedia = () => {
+  const pickMedia = useCamera => {
     const input = document.createElement("input");
     input.type = "file";
     input.accept = "image/*,video/*";
-    input.capture = "environment";
+    if (useCamera) input.capture = "environment";
     input.addEventListener("change", e => {
       const file = e.target.files?.[0];
       if (!file) return;
@@ -279,8 +279,34 @@ function bindQuickReport() {
     });
     input.click();
   };
-  document.getElementById("quickReport")?.addEventListener("click", pickMedia);
-  document.getElementById("cameraBox")?.addEventListener("click", pickMedia);
+
+  const modal = document.getElementById("mediaChoiceModal");
+  const openMediaChoice = () => {
+    if (!modal) return pickMedia(false);
+    modal.classList.add("active");
+    modal.setAttribute("aria-hidden", "false");
+  };
+  const closeMediaChoice = () => {
+    if (!modal) return;
+    modal.classList.remove("active");
+    modal.setAttribute("aria-hidden", "true");
+  };
+
+  modal?.addEventListener("click", e => {
+    if (e.target === modal) closeMediaChoice();
+  });
+
+  document.getElementById("uploadMediaBtn")?.addEventListener("click", () => {
+    closeMediaChoice();
+    pickMedia(false);
+  });
+  document.getElementById("captureMediaBtn")?.addEventListener("click", () => {
+    closeMediaChoice();
+    pickMedia(true);
+  });
+
+  document.getElementById("quickReport")?.addEventListener("click", openMediaChoice);
+  document.getElementById("cameraBox")?.addEventListener("click", openMediaChoice);
   renderPendingMedia();
 }
 

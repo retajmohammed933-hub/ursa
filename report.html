@@ -36,11 +36,7 @@
           <button class="hamburger" id="openSidebar" type="button" aria-label="Open navigation"><i class="fas fa-bars"></i></button>
           <div class="topbar-copy"><h2>New Report</h2><p>Capture the incident with the details that matter</p></div>
         </div>
-        <div class="theme-toggle">
-          <i class="fas fa-sun" id="lightModeBtn" aria-label="Light mode"></i>
-          <i class="fas fa-moon active" id="darkModeBtn" aria-label="Dark mode"></i>
-        </div>
-      </header>
+</header>
       <main class="container">
         <section class="split-grid">
           <div class="glass-card">
@@ -62,6 +58,16 @@
                 <div><strong>Attach photo or video</strong><p class="field-hint">Use your camera or choose media from this device.</p></div>
                 <i class="fas fa-camera-retro"></i>
               </div>
+              <div class="media-choice-modal" id="mediaChoiceModal" aria-hidden="true">
+                <div class="media-choice-card">
+                  <strong>Attach media</strong>
+                  <p class="field-hint">Choose how you want to add a photo or video.</p>
+                  <div class="button-row">
+                    <button type="button" class="glass-btn" id="uploadMediaBtn"><i class="fas fa-upload"></i> Upload</button>
+                    <button type="button" class="glass-btn primary" id="captureMediaBtn"><i class="fas fa-camera"></i> Take now</button>
+                  </div>
+                </div>
+              </div>
               <div class="camera-preview" id="cameraPreview"></div>
               <button type="submit" class="glass-btn primary"><i class="fas fa-paper-plane"></i> Submit report</button>
             </form>
@@ -82,3 +88,5 @@
   <script src="app.js"></script>
 </body>
 </html>
+
+

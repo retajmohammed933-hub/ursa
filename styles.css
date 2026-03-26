@@ -1,17 +1,17 @@
 :root {
-  --bg: #07111f;
-  --bg-alt: #0c1728;
-  --panel: rgba(10, 20, 35, 0.82);
-  --panel-strong: #12233d;
-  --panel-soft: rgba(17, 31, 53, 0.58);
+  --bg: #062726;
+  --bg-alt: #0a3a37;
+  --panel: rgba(8, 38, 36, 0.84);
+  --panel-strong: #0f3a37;
+  --panel-soft: rgba(15, 52, 48, 0.62);
   --text: #f4f7fb;
-  --muted: #93a4bf;
-  --muted-strong: #bfd0e8;
-  --line: rgba(157, 181, 222, 0.14);
-  --accent: #4db5ff;
-  --accent-2: #1f7df0;
+  --muted: #99b8b0;
+  --muted-strong: #c8ddd7;
+  --line: rgba(132, 170, 159, 0.2);
+  --accent: #2d8f77;
+  --accent-2: #1f6f5d;
   --accent-warm: #ff9166;
-  --success: #4fd6a2;
+  --success: #58c8a5;
   --danger: #ff7c8b;
   --warning: #ffca6a;
   --shadow: 0 18px 45px -28px rgba(0, 0, 0, 0.42);
@@ -22,19 +22,19 @@
 }
 
 body:not(.dark) {
-  --bg: #edf3fb;
-  --bg-alt: #dbe7f8;
+  --bg: #e8f3ef;
+  --bg-alt: #d3e8e1;
   --panel: rgba(255, 255, 255, 0.84);
   --panel-strong: #ffffff;
   --panel-soft: rgba(244, 248, 255, 0.9);
-  --text: #112039;
-  --muted: #60728f;
-  --muted-strong: #42526b;
-  --line: rgba(78, 107, 154, 0.12);
-  --accent: #0f7bea;
-  --accent-2: #085bc5;
+  --text: #11322f;
+  --muted: #5e7f77;
+  --muted-strong: #3f5f57;
+  --line: rgba(74, 116, 105, 0.14);
+  --accent: #2c8f76;
+  --accent-2: #1f6f5d;
   --accent-warm: #f47d45;
-  --success: #138d5f;
+  --success: #1f7d63;
   --danger: #d14d66;
   --warning: #b67b14;
   --shadow: 0 18px 45px -28px rgba(19, 37, 68, 0.18);
@@ -55,7 +55,7 @@ body {
   font-family: "Manrope", sans-serif;
   color: var(--text);
   background:
-    radial-gradient(circle at top left, rgba(77, 181, 255, 0.14), transparent 30%),
+    radial-gradient(circle at top left, rgba(45, 143, 119, 0.14), transparent 30%),
     radial-gradient(circle at bottom right, rgba(255, 145, 102, 0.1), transparent 22%),
     linear-gradient(160deg, var(--bg), var(--bg-alt));
   font-size: 15px;
@@ -154,7 +154,7 @@ body.login-page .sidebar {
   height: 58px;
   overflow: hidden;
   border-radius: 18px;
-  background: linear-gradient(145deg, rgba(77, 181, 255, 0.22), rgba(255, 145, 102, 0.18));
+  background: linear-gradient(145deg, rgba(45, 143, 119, 0.22), rgba(255, 145, 102, 0.18));
   border: 1px solid rgba(255, 255, 255, 0.12);
   flex-shrink: 0;
 }
@@ -215,8 +215,8 @@ body.login-page .sidebar {
 .sidebar a:hover,
 .sidebar a.active {
   color: var(--text);
-  border-color: rgba(77, 181, 255, 0.16);
-  background: rgba(77, 181, 255, 0.08);
+  border-color: rgba(45, 143, 119, 0.16);
+  background: rgba(45, 143, 119, 0.08);
   transform: none;
 }
 
@@ -226,7 +226,7 @@ body.login-page .sidebar {
   border-radius: var(--radius-md);
   background:
     radial-gradient(circle at top right, rgba(255, 145, 102, 0.14), transparent 40%),
-    linear-gradient(160deg, rgba(77, 181, 255, 0.08), rgba(255, 255, 255, 0.02));
+    linear-gradient(160deg, rgba(45, 143, 119, 0.08), rgba(255, 255, 255, 0.02));
   border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
@@ -371,7 +371,7 @@ body.login-page .sidebar {
   padding: 6px 10px;
   margin-bottom: 12px;
   border-radius: 999px;
-  background: rgba(77, 181, 255, 0.12);
+  background: rgba(45, 143, 119, 0.12);
   color: #d4e8ff;
   font-size: 0.73rem;
   font-weight: 700;
@@ -619,8 +619,8 @@ body:not(.dark) .glass-textarea {
 .glass-input:focus,
 .glass-select:focus,
 .glass-textarea:focus {
-  border-color: rgba(77, 181, 255, 0.5);
-  box-shadow: 0 0 0 4px rgba(77, 181, 255, 0.12);
+  border-color: rgba(45, 143, 119, 0.5);
+  box-shadow: 0 0 0 4px rgba(45, 143, 119, 0.12);
 }
 
 .glass-textarea {
@@ -651,7 +651,7 @@ body:not(.dark) .glass-textarea {
 .glass-btn.primary {
   color: #fff;
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  box-shadow: 0 12px 24px -18px rgba(15, 123, 234, 0.7);
+  box-shadow: 0 12px 24px -18px rgba(31, 111, 93, 0.7);
 }
 
 .glass-btn.warm {
@@ -681,7 +681,7 @@ body:not(.dark) .glass-textarea {
 
 .category-btn.primary {
   color: #fff;
-  background: linear-gradient(135deg, rgba(77, 181, 255, 0.95), rgba(31, 125, 240, 0.95));
+  background: linear-gradient(135deg, rgba(45, 143, 119, 0.95), rgba(31, 111, 93, 0.95));
 }
 
 .camera-box {
@@ -693,9 +693,9 @@ body:not(.dark) .glass-textarea {
   margin-bottom: 16px;
   border-radius: var(--radius-lg);
   background:
-    linear-gradient(135deg, rgba(77, 181, 255, 0.12), rgba(255, 145, 102, 0.12)),
+    linear-gradient(135deg, rgba(45, 143, 119, 0.12), rgba(255, 145, 102, 0.12)),
     var(--panel-soft);
-  border: 1px dashed rgba(77, 181, 255, 0.34);
+  border: 1px dashed rgba(45, 143, 119, 0.34);
   cursor: pointer;
 }
 
@@ -711,6 +711,40 @@ body:not(.dark) .glass-textarea {
 
 .camera-preview.active {
   display: block;
+}
+
+.media-choice-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(2, 16, 15, 0.56);
+  padding: 16px;
+  z-index: 140;
+}
+
+.media-choice-modal.active {
+  display: flex;
+}
+
+.media-choice-card {
+  width: min(420px, 100%);
+  padding: 18px;
+  border-radius: var(--radius-lg);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+.media-choice-card strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 1.05rem;
+}
+
+.media-choice-card .button-row {
+  margin-top: 12px;
 }
 
 .camera-preview img,
@@ -816,8 +850,8 @@ body:not(.dark) .glass-textarea {
 
 .emer-card:hover {
   transform: translateY(-2px);
-  border-color: rgba(77, 181, 255, 0.34);
-  background: linear-gradient(135deg, rgba(77, 181, 255, 0.12), rgba(255, 145, 102, 0.1));
+  border-color: rgba(45, 143, 119, 0.34);
+  background: linear-gradient(135deg, rgba(45, 143, 119, 0.12), rgba(255, 145, 102, 0.1));
 }
 
 .emer-card h3 {
@@ -879,7 +913,7 @@ body:not(.dark) .glass-textarea {
   width: 240px;
   height: 240px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(77, 181, 255, 0.24), transparent 68%);
+  background: radial-gradient(circle, rgba(45, 143, 119, 0.24), transparent 68%);
 }
 
 .auth-hero h1,
@@ -1051,3 +1085,4 @@ body:not(.dark) .glass-textarea {
     align-items: flex-start;
   }
 }
+
