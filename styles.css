@@ -1,9 +1,9 @@
 :root {
   --bg: #07111f;
   --bg-alt: #0c1728;
-  --panel: rgba(9, 19, 34, 0.88);
+  --panel: rgba(10, 20, 35, 0.82);
   --panel-strong: #12233d;
-  --panel-soft: rgba(17, 31, 53, 0.82);
+  --panel-soft: rgba(17, 31, 53, 0.58);
   --text: #f4f7fb;
   --muted: #93a4bf;
   --muted-strong: #bfd0e8;
@@ -14,11 +14,11 @@
   --success: #4fd6a2;
   --danger: #ff7c8b;
   --warning: #ffca6a;
-  --shadow: 0 28px 80px -32px rgba(0, 0, 0, 0.6);
-  --radius-xl: 32px;
-  --radius-lg: 24px;
-  --radius-md: 18px;
-  --radius-sm: 14px;
+  --shadow: 0 18px 45px -28px rgba(0, 0, 0, 0.42);
+  --radius-xl: 24px;
+  --radius-lg: 18px;
+  --radius-md: 14px;
+  --radius-sm: 12px;
 }
 
 body:not(.dark) {
@@ -37,7 +37,7 @@ body:not(.dark) {
   --success: #138d5f;
   --danger: #d14d66;
   --warning: #b67b14;
-  --shadow: 0 28px 80px -34px rgba(19, 37, 68, 0.25);
+  --shadow: 0 18px 45px -28px rgba(19, 37, 68, 0.18);
 }
 
 * {
@@ -55,9 +55,11 @@ body {
   font-family: "Manrope", sans-serif;
   color: var(--text);
   background:
-    radial-gradient(circle at top left, rgba(77, 181, 255, 0.22), transparent 32%),
-    radial-gradient(circle at bottom right, rgba(255, 145, 102, 0.16), transparent 26%),
+    radial-gradient(circle at top left, rgba(77, 181, 255, 0.14), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(255, 145, 102, 0.1), transparent 22%),
     linear-gradient(160deg, var(--bg), var(--bg-alt));
+  font-size: 15px;
+  line-height: 1.5;
 }
 
 body::before {
@@ -67,10 +69,10 @@ body::before {
   background-image:
     linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 52px 52px;
+  background-size: 64px 64px;
   mask-image: radial-gradient(circle at center, black 45%, transparent 95%);
   pointer-events: none;
-  opacity: 0.36;
+  opacity: 0.16;
 }
 
 a,
@@ -118,7 +120,7 @@ body.login-page .sidebar {
   position: sticky;
   top: 16px;
   min-height: calc(100vh - 32px);
-  padding: 28px 22px;
+  padding: 22px 18px;
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: var(--radius-xl);
@@ -144,14 +146,14 @@ body.login-page .sidebar {
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-bottom: 30px;
+  margin-bottom: 24px;
 }
 
 .logo-image {
-  width: 68px;
-  height: 68px;
+  width: 58px;
+  height: 58px;
   overflow: hidden;
-  border-radius: 22px;
+  border-radius: 18px;
   background: linear-gradient(145deg, rgba(77, 181, 255, 0.22), rgba(255, 145, 102, 0.18));
   border: 1px solid rgba(255, 255, 255, 0.12);
   flex-shrink: 0;
@@ -167,9 +169,9 @@ body.login-page .sidebar {
 .brand-copy h1,
 .logo {
   font-family: "Space Grotesk", sans-serif;
-  font-size: 1.6rem;
-  font-weight: 700;
-  letter-spacing: -0.04em;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
 }
 
 .brand-copy p {
@@ -181,9 +183,9 @@ body.login-page .sidebar {
 .sidebar-group-label {
   margin-bottom: 12px;
   color: var(--muted);
-  font-size: 0.74rem;
-  font-weight: 800;
-  letter-spacing: 0.18em;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
@@ -197,7 +199,7 @@ body.login-page .sidebar {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 14px 16px;
+  padding: 11px 13px;
   color: var(--muted-strong);
   text-decoration: none;
   border-radius: var(--radius-sm);
@@ -213,19 +215,19 @@ body.login-page .sidebar {
 .sidebar a:hover,
 .sidebar a.active {
   color: var(--text);
-  border-color: rgba(77, 181, 255, 0.22);
-  background: linear-gradient(135deg, rgba(77, 181, 255, 0.18), rgba(31, 125, 240, 0.12));
-  transform: translateX(2px);
+  border-color: rgba(77, 181, 255, 0.16);
+  background: rgba(77, 181, 255, 0.08);
+  transform: none;
 }
 
 .sidebar-card {
   margin-top: 22px;
-  padding: 18px;
+  padding: 15px;
   border-radius: var(--radius-md);
   background:
-    radial-gradient(circle at top right, rgba(255, 145, 102, 0.25), transparent 42%),
-    linear-gradient(160deg, rgba(77, 181, 255, 0.16), rgba(255, 255, 255, 0.03));
-  border: 1px solid rgba(255, 255, 255, 0.08);
+    radial-gradient(circle at top right, rgba(255, 145, 102, 0.14), transparent 40%),
+    linear-gradient(160deg, rgba(77, 181, 255, 0.08), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .sidebar-card h3 {
@@ -251,11 +253,11 @@ body.login-page .sidebar {
   align-items: center;
   justify-content: space-between;
   gap: 18px;
-  padding: 18px 22px;
-  margin-bottom: 20px;
+  padding: 14px 18px;
+  margin-bottom: 16px;
   background: var(--panel);
   border: 1px solid var(--line);
-  border-radius: 26px;
+  border-radius: 20px;
   box-shadow: var(--shadow);
   backdrop-filter: blur(20px);
 }
@@ -278,9 +280,9 @@ body.login-page .sidebar {
 
 .hamburger {
   display: none;
-  width: 52px;
-  height: 52px;
-  border-radius: 16px;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid var(--line);
   color: var(--text);
@@ -289,8 +291,8 @@ body.login-page .sidebar {
 
 .topbar-copy h2 {
   font-family: "Space Grotesk", sans-serif;
-  font-size: 1.15rem;
-  font-weight: 700;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 .topbar-copy p {
@@ -307,8 +309,8 @@ body.login-page .sidebar {
 }
 
 .theme-toggle i {
-  width: 38px;
-  height: 38px;
+  width: 34px;
+  height: 34px;
   display: grid;
   place-items: center;
   border-radius: 12px;
@@ -325,8 +327,8 @@ body.login-page .sidebar {
 
 .container {
   display: grid;
-  gap: 20px;
-  padding-bottom: 28px;
+  gap: 16px;
+  padding-bottom: 20px;
 }
 
 .hero-card,
@@ -342,15 +344,15 @@ body.login-page .sidebar {
 .hero-card {
   position: relative;
   overflow: hidden;
-  padding: 28px;
+  padding: 22px;
 }
 
 .hero-card::after {
   content: "";
   position: absolute;
   inset: auto -30px -60px auto;
-  width: 220px;
-  height: 220px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(255, 145, 102, 0.32), transparent 65%);
   pointer-events: none;
@@ -359,21 +361,21 @@ body.login-page .sidebar {
 .hero-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.85fr);
-  gap: 18px;
+  gap: 16px;
 }
 
 .hero-eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 12px;
-  margin-bottom: 16px;
+  padding: 6px 10px;
+  margin-bottom: 12px;
   border-radius: 999px;
   background: rgba(77, 181, 255, 0.12);
   color: #d4e8ff;
-  font-size: 0.82rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
+  font-size: 0.73rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 
@@ -383,24 +385,24 @@ body:not(.dark) .hero-eyebrow {
 
 .hero-title {
   font-family: "Space Grotesk", sans-serif;
-  font-size: clamp(2rem, 2.5vw, 3.4rem);
-  line-height: 1;
-  letter-spacing: -0.06em;
-  max-width: 11ch;
+  font-size: clamp(1.55rem, 1.4vw + 1rem, 2.2rem);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  max-width: 18ch;
 }
 
 .hero-text {
   max-width: 60ch;
-  margin-top: 14px;
+  margin-top: 10px;
   color: var(--muted);
-  line-height: 1.7;
+  line-height: 1.6;
 }
 
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: 24px;
+  margin-top: 18px;
 }
 
 .stat-strip,
@@ -410,12 +412,12 @@ body:not(.dark) .hero-eyebrow {
 .split-grid,
 .auth-grid {
   display: grid;
-  gap: 18px;
+  gap: 14px;
 }
 
 .stat-strip {
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin-top: 22px;
+  margin-top: 16px;
 }
 
 .stat-card,
@@ -423,7 +425,7 @@ body:not(.dark) .hero-eyebrow {
 .report-card,
 .emer-card,
 .status-card {
-  padding: 20px;
+  padding: 16px;
   border-radius: var(--radius-lg);
   background: var(--panel-soft);
   border: 1px solid var(--line);
@@ -432,9 +434,9 @@ body:not(.dark) .hero-eyebrow {
 .stat-card strong,
 .mini-card strong {
   display: block;
-  font-size: 1.9rem;
-  font-weight: 800;
-  letter-spacing: -0.04em;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .stat-card span,
@@ -448,7 +450,7 @@ body:not(.dark) .hero-eyebrow {
 
 .glass-card,
 .panel-card {
-  padding: 24px;
+  padding: 18px;
 }
 
 .section-heading {
@@ -456,14 +458,15 @@ body:not(.dark) .hero-eyebrow {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .section-heading h2,
 .section-heading h3,
 .card-title {
   font-family: "Space Grotesk", sans-serif;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.02em;
+  font-weight: 600;
 }
 
 .section-heading p {
@@ -484,7 +487,7 @@ body:not(.dark) .hero-eyebrow {
 }
 
 .mini-card {
-  min-height: 180px;
+  min-height: 0;
 }
 
 .mini-card i,
@@ -505,33 +508,34 @@ body:not(.dark) .hero-eyebrow {
 .profile-grid {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
-  gap: 18px;
+  gap: 14px;
 }
 
 .profile-card {
   display: flex;
-  gap: 18px;
+  gap: 14px;
   align-items: center;
 }
 
 .avatar-badge {
-  width: 74px;
-  height: 74px;
-  border-radius: 22px;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
   background: linear-gradient(145deg, var(--accent), var(--accent-warm));
   color: #fff;
   display: grid;
   place-items: center;
   font-family: "Space Grotesk", sans-serif;
-  font-size: 1.7rem;
-  font-weight: 700;
+  font-size: 1.2rem;
+  font-weight: 600;
   flex-shrink: 0;
 }
 
 .profile-copy h2 {
   font-family: "Space Grotesk", sans-serif;
-  font-size: 1.8rem;
-  letter-spacing: -0.04em;
+  font-size: 1.3rem;
+  letter-spacing: -0.02em;
+  font-weight: 600;
 }
 
 .profile-copy p {
@@ -542,12 +546,12 @@ body:not(.dark) .hero-eyebrow {
 .profile-row {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-  margin-top: 18px;
+  gap: 12px;
+  margin-top: 14px;
 }
 
 .info-tile {
-  padding: 18px;
+  padding: 14px;
   border-radius: var(--radius-md);
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--line);
@@ -564,11 +568,11 @@ body:not(.dark) .hero-eyebrow {
 
 .kpi-list {
   display: grid;
-  gap: 14px;
+  gap: 10px;
 }
 
 .kpi-item {
-  padding: 16px 18px;
+  padding: 14px;
   border-radius: var(--radius-md);
   border: 1px solid var(--line);
   background: rgba(255, 255, 255, 0.04);
@@ -576,7 +580,7 @@ body:not(.dark) .hero-eyebrow {
 
 .kpi-item strong {
   display: block;
-  font-size: 1.55rem;
+  font-size: 1.1rem;
   margin-bottom: 4px;
 }
 
@@ -584,8 +588,8 @@ label {
   display: block;
   margin: 0 0 8px;
   color: var(--muted-strong);
-  font-size: 0.92rem;
-  font-weight: 700;
+  font-size: 0.88rem;
+  font-weight: 600;
 }
 
 .required-star {
@@ -596,12 +600,12 @@ label {
 .glass-select,
 .glass-textarea {
   width: 100%;
-  padding: 15px 16px;
-  margin-bottom: 16px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
   color: var(--text);
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--line);
-  border-radius: 16px;
+  border-radius: 12px;
   outline: none;
   transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
 }
@@ -628,10 +632,10 @@ body:not(.dark) .glass-textarea {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  min-height: 50px;
-  padding: 0 18px;
-  border-radius: 16px;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 14px;
+  border-radius: 12px;
   color: var(--text);
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid var(--line);
@@ -647,7 +651,7 @@ body:not(.dark) .glass-textarea {
 .glass-btn.primary {
   color: #fff;
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  box-shadow: 0 18px 32px -20px rgba(15, 123, 234, 0.95);
+  box-shadow: 0 12px 24px -18px rgba(15, 123, 234, 0.7);
 }
 
 .glass-btn.warm {
@@ -671,7 +675,7 @@ body:not(.dark) .glass-textarea {
 
 .category-btn {
   justify-content: flex-start;
-  min-height: 68px;
+  min-height: 54px;
   text-align: left;
 }
 
@@ -685,7 +689,7 @@ body:not(.dark) .glass-textarea {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 18px 20px;
+  padding: 14px 16px;
   margin-bottom: 16px;
   border-radius: var(--radius-lg);
   background:
@@ -746,7 +750,7 @@ body:not(.dark) .glass-textarea {
 .report-card strong {
   display: block;
   margin-bottom: 8px;
-  font-size: 1.06rem;
+  font-size: 1rem;
 }
 
 .report-meta {
@@ -784,7 +788,7 @@ body:not(.dark) .glass-textarea {
 
 .map-container iframe {
   width: 100%;
-  min-height: 560px;
+  min-height: 480px;
   border: 0;
   border-radius: var(--radius-lg);
 }
@@ -817,8 +821,10 @@ body:not(.dark) .glass-textarea {
 }
 
 .emer-card h3 {
-  margin: 14px 0 8px;
+  margin: 10px 0 6px;
   font-family: "Space Grotesk", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 .emer-number {
@@ -841,11 +847,11 @@ body:not(.dark) .glass-textarea {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 18px 22px;
-  margin-bottom: 20px;
+  padding: 14px 18px;
+  margin-bottom: 16px;
   background: var(--panel);
   border: 1px solid var(--line);
-  border-radius: 26px;
+  border-radius: 20px;
   box-shadow: var(--shadow);
   backdrop-filter: blur(20px);
 }
@@ -857,7 +863,7 @@ body:not(.dark) .glass-textarea {
 .auth-hero,
 .auth-card,
 .auth-aside {
-  padding: 28px;
+  padding: 20px;
 }
 
 .auth-hero {
@@ -879,9 +885,9 @@ body:not(.dark) .glass-textarea {
 .auth-hero h1,
 .auth-card h1 {
   font-family: "Space Grotesk", sans-serif;
-  font-size: clamp(2rem, 3vw, 3.1rem);
-  line-height: 1.02;
-  letter-spacing: -0.06em;
+  font-size: clamp(1.45rem, 1.3vw + 1rem, 2rem);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
 }
 
 .auth-hero p,
@@ -920,7 +926,8 @@ body:not(.dark) .glass-textarea {
 }
 
 .status-card strong {
-  font-size: 2.2rem;
+  font-size: 1.15rem;
+  font-weight: 600;
 }
 
 .logout-row {
@@ -1002,7 +1009,7 @@ body:not(.dark) .glass-textarea {
   .auth-card,
   .auth-aside,
   .sidebar {
-    border-radius: 22px;
+    border-radius: 18px;
   }
 
   .top-bar,
@@ -1015,9 +1022,9 @@ body:not(.dark) .glass-textarea {
   }
 
   .logo-image {
-    width: 56px;
-    height: 56px;
-    border-radius: 18px;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
   }
 
   .hero-card,
@@ -1026,7 +1033,7 @@ body:not(.dark) .glass-textarea {
   .auth-hero,
   .auth-card,
   .auth-aside {
-    padding: 20px;
+    padding: 16px;
   }
 
   .topbar-copy p,
