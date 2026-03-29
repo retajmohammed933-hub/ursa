@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>URSA · Map</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+</head>
+<body class="dark">
+  <div class="container">
+    <div id="page-map" class="page active-page">
+      <h2>🗺️ Interactive map of Benha</h2>
+      <div class="glass-card" style="padding:20px;">
+        <div class="map-container" style="height:500px;">
+          <iframe title="Benha Full Map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.openstreetmap.org/export/embed.html?bbox=31.1300%2C30.4450%2C31.2200%2C30.4900&layer=mapnik&marker=30.4667%2C31.1848"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

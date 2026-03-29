@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>URSA · Home</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+</head>
+<body class="dark">
+  <div class="container">
+    <div id="page-home" class="page active-page">
+      <h1 style="font-size:3rem;">Dashboard</h1>
+      <p style="color:var(--secondary);" id="homeGreeting">Good evening</p>
+      <div class="profile-summary">
+        <div><h2 id="homeUserName">User Name</h2><p style="color: var(--text-secondary);" id="homeUserMeta">Safety Reporter</p></div>
+        <div class="profile-chip" id="homeGovernorate">Governorate</div>
+        <div class="profile-chip" id="homePhone">Phone</div>
+      </div>
+      <div class="dash-grid">
+        <div class="glass-card">
+          <i class="fas fa-plus-circle" style="font-size:3rem; color:var(--primary);"></i>
+          <h3>Quick report</h3>
+          <p>Tap to go to report page</p>
+          <button class="glass-btn small" style="margin-top:14px;" id="quickReportBtn" type="button">Quick Report</button>
+        </div>
+        <div class="glass-card"><i class="fas fa-chart-line" style="font-size:2.4rem; color:var(--primary);"></i><h3>Safety stats</h3><div id="statsText">Your account is ready</div></div>
+        <div class="glass-card"><i class="fas fa-user-check" style="font-size:2.4rem; color:var(--primary);"></i><h3>Account</h3><p id="accountStatus">Logged in</p><p id="accountIdText">National ID saved</p></div>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

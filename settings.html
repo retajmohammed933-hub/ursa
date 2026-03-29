@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>URSA · Settings</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+</head>
+<body class="dark">
+  <div class="container">
+    <div id="page-settings" class="page active-page">
+      <h2>⚙️ Profile</h2>
+      <div class="glass-card">
+        <div class="profile-image-container">
+          <div class="profile-image"><img src="URSA 3.png" alt="Profile Picture" /></div>
+        </div>
+        <div class="upload-hint"><i class="fas fa-shield-halved"></i> URSA profile preview</div>
+        <form id="settingsForm">
+          <label>Full name <span class="required-star">*</span></label>
+          <input class="glass-input" id="settingsFullName" required />
+          <label>Phone <span class="required-star">*</span></label>
+          <input class="glass-input" id="settingsPhone" maxlength="11" required />
+          <label>Governorate <span class="required-star">*</span></label>
+          <input class="glass-input" id="settingsGovernorate" required />
+          <button type="submit" class="glass-btn primary" style="margin-bottom: 15px;"><i class="fas fa-save"></i> Update profile</button>
+        </form>
+        <hr />
+        <button class="glass-btn" style="width:100%; color: var(--danger); border-color: var(--danger);" id="logoutBtn" type="button">
+          <i class="fas fa-sign-out-alt" style="margin-right: 10px;"></i> Log Out
+        </button>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

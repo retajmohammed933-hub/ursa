@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>URSA · My Complaints</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+</head>
+<body class="dark">
+  <div class="container">
+    <div id="page-myreports" class="page active-page">
+      <div class="glass-card">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+          <h2 style="color: var(--primary);">My Complaints</h2>
+          <div class="action-bar">
+            <button class="glass-btn small" onclick="window.location.href='report.html'" style="background: var(--success);">New Report</button>
+          </div>
+        </div>
+        <div id="reportsContainer"></div>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
